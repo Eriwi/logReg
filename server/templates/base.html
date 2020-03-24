@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AL Timekeep</title>
+</head>
+<body>
+<div>
+    AL Timekeep:
+    {% if current_user.is_authenticated %}
+    <b>{{current_user.username}}  </b>
+    {% endif %}
+    <a href="/">Home</a>
+    {% if current_user.is_authenticated %}
+    <a href="/logout">Log out</a>
+    <a href="/add_company">Add Company</a>
+    <a href="/add_order">Add Order</a>
+    <a href="/add_article">New Time Entry</a>
+    {% endif %}
+    </div>
+{% block content %} {% endblock %}
+</body>
+</html>

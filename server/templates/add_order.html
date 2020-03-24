@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Register a new order</h2>
+<form action="" method="POST">
+    {{form.hidden_tag()}}
+    <div>
+        {{form.order_reference.label}}<br>
+        {{form.order_reference(size=32)}}
+    </div>
+    <div>
+        {{form.company}}
+    </div>
+    <div>
+        <input type="submit" value="Send">
+    </div>
+</form>
+{% endblock %}

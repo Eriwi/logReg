@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+<p> Hello {{current_user.username}}</p>
+
+<h2>Your time entries:</h2>
+<table>
+    <tr>
+        <th>Timestamp</th>
+        <th>Company</th>
+        <th>Order</th>
+        <th>Time</th>
+    </tr>
+    {% for a in articles %}
+    <tr>
+        <td>{{a.timestamp.strftime('%B %d %Y - %H:%M:%S')}}</td>
+        <td>{{a.order.company.name}}</td>
+        <td>{{a.order.reference}}</td>
+        <td>{{a.time}}</td>
+    </tr>
+    {% endfor %}
+    <tr>
+        <td></td>
+        <td></td>
+        <td><b>Total time:</b></td>
+        <td>{{total_time}}</td>
+    </tr>
+</table>
+{% endblock %}

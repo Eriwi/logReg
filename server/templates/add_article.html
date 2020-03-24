@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Register a new time entry</h2>
+<form action="" method="POST">
+    {{form.hidden_tag()}}
+    <div>
+        {{form.time.label}}<br>
+        {{form.time(size=32)}}
+    </div>
+    <div>
+        {{form.order}}
+    </div>
+    <div>
+        <input type="submit" value="Send">
+    </div>
+</form>
+{% endblock %}
