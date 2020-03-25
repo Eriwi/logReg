@@ -86,3 +86,18 @@ def add_article():
         return redirect(url_for('index'))
     if request.method == 'GET':
         return render_template('add_article.html', form=form)
+
+
+@app.route('/company_overview')
+def company_overview():
+    companies = Company.query.order_by(Company.name.desc()).all()
+    total_time = 0
+    for c in companies:
+        total_time += c.calc_time()
+    return render_template('company_overview.html', companies=companies, total_time=total_time)
+
+
+
+@app.route('/comapany_overview/<int:company_id>')
+def single_company_overview(company_id):
+    company = Company.query.filter_by(id=company_id)

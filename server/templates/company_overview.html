@@ -1,10 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Company overview:</h2>
+<table>
+    <tr>
+        <th>Company</th>
+        <th>Orders</th>
+        <th>Total Time</th>
+    </tr>
+    {% for c in companies %}
+    <tr>
+        <td>{{c.name}}</td>
+        <td>{{c.num_order()}}</td>
+        <td>{{c.calc_time()}}</td>
+    </tr>
+    {% endfor %}
+    <tr>
+        <td></td>
+        <td></td>
+        <td><b>Total time:</b></td>
+        <td>{{total_time}}</td>
+    </tr>
+</table>
+{% endblock %}

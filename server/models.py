@@ -28,11 +28,29 @@ class Article(db.Model):
     order_id = db.Column(db.Integer, db.ForeignKey('order.id'))
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
 
+    def __repr__(self):
+        return self.id
+
 
 class Company(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(140))
     orders = db.relationship('Order', backref='company', lazy='dynamic')
+
+    def __repr__(self):
+        return self.id
+
+    def num_order(self):
+        return len(Order.query.filter_by(company_id=self.id).all())
+
+    def calc_time(self):
+        time = 0
+        orders = Order.query.filter_by(company_id=self.id).all()
+        for o in orders:
+            articles = Article.query.filter_by(order_id=o.id)
+            for a in articles:
+                time += a.time
+        return time
 
 
 class Order(db.Model):
@@ -40,4 +58,8 @@ class Order(db.Model):
     company_id = db.Column(db.Integer, db.ForeignKey('company.id'))
     reference = db.Column(db.String(140))
     articles = db.relationship('Article', backref='order', lazy='dynamic')
+
+    def __repr__(self):
+        return self.id
+
 
