@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Order overview: {{order.reference}} ({{order.get_company_name()}})</h2>
+<table>
+    <tr>
+        <td><b>Order reference:</b></td>
+        <td>{{order.reference}}</td>
+    </tr>
+    <tr>
+        <td><b>Company name:</b></td>
+        <td>{{order.get_company_name()}}</td>
+    </tr>
+    <tr>
+        <td><b>Total time entries:</b></td>
+        <td>{{order.num_articles()}}</td>
+    </tr>
+    <tr>
+        <td><b>Total time:</b></td>
+        <td>{{order.calc_time()}}</td>
+    </tr>
+</table>
+
+<h2>Time entries:</h2>
+<table>
+    <tr>
+        <th>Timestamp</th>
+        <th>Author</th>
+        <th>Time</th>
+    </tr>
+    {% for a in articles %}
+    <tr>
+        <td><a href="/article_overview/{{a.id}}">{{a.timestamp.strftime('%B %d %Y - %H:%M:%S')}}</a></td>
+        <td>{{a.get_author_name()}}</td>
+        <td>{{a.time}}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Order overview:</h2>
+<table>
+    <tr>
+        <th>Reference</th>
+        <th>Num of articles</th>
+        <th>Time</th>
+    </tr>
+    {% for o in orders %}
+    <tr>
+        <td><a href="/order_overview/{{o.id}}">{{o.reference}}</a></td>
+        <td>{{o.num_articles()}}</td>
+        <td>{{o.calc_time()}}</td>
+    </tr>
+    {% endfor %}
+    <tr>
+        <td></td>
+        <td><b>Total time:</b></td>
+        <td>{{total_time}}</td>
+    </tr>
+</table>
+{% endblock %}

@@ -31,6 +31,9 @@ class Article(db.Model):
     def __repr__(self):
         return self.id
 
+    def get_author_name(self):
+        return User.query.filter_by(id=self.author_id).first().username
+
 
 class Company(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -47,9 +50,7 @@ class Company(db.Model):
         time = 0
         orders = Order.query.filter_by(company_id=self.id).all()
         for o in orders:
-            articles = Article.query.filter_by(order_id=o.id)
-            for a in articles:
-                time += a.time
+            time += o.calc_time()
         return time
 
 
@@ -58,6 +59,19 @@ class Order(db.Model):
     company_id = db.Column(db.Integer, db.ForeignKey('company.id'))
     reference = db.Column(db.String(140))
     articles = db.relationship('Article', backref='order', lazy='dynamic')
+
+    def calc_time(self):
+        time = 0
+        articles = Article.query.filter_by(order_id=self.id)
+        for a in articles:
+            time += a.time
+        return time
+
+    def get_company_name(self):
+        return Company.query.filter_by(id=self.company_id).first().name
+
+    def num_articles(self):
+        return len(Article.query.filter_by(order_id=self.id).all())
 
     def __repr__(self):
         return self.id

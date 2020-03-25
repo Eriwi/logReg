@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Time entry overview: {{article.timestamp}} ({{article.get_author_name()}})</h2>
+<table>
+    <tr>
+        <td><b>Timestamp:</b></td>
+        <td>{{article.timestamp}}</td>
+    </tr>
+    <tr>
+        <td><b>Author:</b></td>
+        <td>{{article.get_author_name()}}</td>
+    </tr>
+    <tr>
+        <td><b>Order reference:</b></td>
+        <td>{{order.reference}}</td>
+    </tr>
+    <tr>
+        <td><b>Company name:</b></td>
+        <td>{{order.get_company_name()}}</td>
+    </tr>
+    <tr>
+        <td><b>Time:</b></td>
+        <td>{{article.time}}</td>
+    </tr>
+</table>
+{% endblock %}

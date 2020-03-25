@@ -13,7 +13,7 @@
     </tr>
     {% for a in articles %}
     <tr>
-        <td>{{a.timestamp.strftime('%B %d %Y - %H:%M:%S')}}</td>
+        <td><a href="/article_overview/{{a.id}}">{{a.timestamp.strftime('%B %d %Y - %H:%M:%S')}}</a></td>
         <td>{{a.order.company.name}}</td>
         <td>{{a.order.reference}}</td>
         <td>{{a.time}}</td>

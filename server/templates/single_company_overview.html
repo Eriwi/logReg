@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Company overview: {{company.name}}</h2>
+<table>
+    <tr>
+        <td><b>Company name:</b></td>
+        <td>{{company.name}}</td>
+    </tr>
+    <tr>
+        <td><b>Total orders:</b></td>
+        <td>{{num_orders}}</td>
+    </tr>
+    <tr>
+        <td><b>Total time:</b></td>
+        <td>{{company.calc_time()}}</td>
+    </tr>
+</table>
+
+<h2>Orders:</h2>
+<table>
+    <tr>
+        <th>Order Reference</th>
+        <th>Total Time</th>
+    </tr>
+    {% for o in orders %}
+    <tr>
+        <td><a href="/order_overview/{{o.id}}">{{o.reference}}</a></td>
+        <td>{{o.calc_time()}}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

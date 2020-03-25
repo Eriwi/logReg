@@ -43,6 +43,7 @@ def logout():
     return redirect(url_for('index'))
 
 
+@login_required
 @app.route('/add_company', methods=['GET', 'POST'])
 def add_company():
     form = CompanyForm()
@@ -58,6 +59,7 @@ def add_company():
             return jsonify({'message': 'Something went wrong'})
 
 
+@login_required
 @app.route('/add_order', methods=['GET', 'POST'])
 def add_order():
     form = OrderForm()
@@ -73,11 +75,12 @@ def add_order():
         return render_template('add_order.html', form=form)
 
 
+@login_required
 @app.route('/add_article', methods=['GET', 'POST'])
 def add_article():
     form = ArticleForm()
     orders = db.session.query(Order).all()
-    order_refs = [(i.id, i.reference) for i in orders]
+    order_refs = [(i.id, f"{i.reference} ({i.get_company_name()})") for i in orders]
     form.order.choices = order_refs
     if form.validate_on_submit():
         article = Article(time=form.time.data, author_id=current_user.id, order_id=form.order.data)
@@ -88,6 +91,7 @@ def add_article():
         return render_template('add_article.html', form=form)
 
 
+@login_required
 @app.route('/company_overview')
 def company_overview():
     companies = Company.query.order_by(Company.name.desc()).all()
@@ -97,7 +101,36 @@ def company_overview():
     return render_template('company_overview.html', companies=companies, total_time=total_time)
 
 
-
-@app.route('/comapany_overview/<int:company_id>')
+@login_required
+@app.route('/company_overview/<int:company_id>')
 def single_company_overview(company_id):
-    company = Company.query.filter_by(id=company_id)
+    company = Company.query.filter_by(id=company_id).first()
+    orders = Order.query.filter_by(company_id=company_id).all()
+    num_orders = len(orders)
+    return render_template('single_company_overview.html', orders=orders, company=company, num_orders=num_orders)
+
+
+@login_required
+@app.route('/order_overview')
+def order_overview():
+    orders = Order.query.all()
+    total_time = 0
+    for o in orders:
+        total_time += o.calc_time()
+    return render_template('order_overview.html', orders=orders, total_time=total_time)
+
+
+@login_required
+@app.route('/order_overview/<int:order_id>')
+def single_order_overview(order_id):
+    order = Order.query.filter_by(id=order_id).first()
+    articles = Article.query.filter_by(order_id=order_id).order_by(Article.timestamp.desc()).all()
+    return render_template('single_order_overview.html', order=order, articles=articles)
+
+
+@login_required
+@app.route('/article_overview/<int:article_id>')
+def article_overview(article_id):
+    article = Article.query.filter_by(id=article_id).first()
+    order = Order.query.filter_by(id=article.order_id).first()
+    return render_template('article_overview.html', article=article, order=order)

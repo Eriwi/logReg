@@ -10,7 +10,7 @@
     </tr>
     {% for c in companies %}
     <tr>
-        <td>{{c.name}}</td>
+        <td><a href="/company_overview/{{c.id}}">{{c.name}}</td>
         <td>{{c.num_order()}}</td>
         <td>{{c.calc_time()}}</td>
     </tr>
